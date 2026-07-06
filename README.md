@@ -1,4 +1,4 @@
-# 🌡️ Monitor de Temperatura e Umidade com ESP32 e Blynk
+# Monitor de Temperatura e Umidade com ESP32 e Blynk
 
 **Disciplina:** Tópicos Especiais em Computação XXVII (GEX1087)  
 **Instituição:** Universidade Federal da Fronteira Sul (UFFS) – Campus Chapecó  
@@ -10,7 +10,7 @@
 
 ---
 
-# 📋 Descrição
+# Descrição
 
 Este projeto consiste em um sistema de monitoramento de temperatura e umidade utilizando um **ESP32**, um **sensor DHT11**, um **display LCD I2C** e a plataforma **Blynk IoT**.
 
@@ -20,7 +20,7 @@ Além do monitoramento, o projeto permite o controle local e remoto de LEDs, ger
 
 ---
 
-# 🛠 Hardware utilizado
+# Hardware utilizado
 
 - ESP32 Dev Module
 - Sensor DHT11
@@ -36,7 +36,7 @@ Além do monitoramento, o projeto permite o controle local e remoto de LEDs, ger
 
 ---
 
-# 📡 Funcionalidades
+# Funcionalidades
 
 - Leitura da temperatura em Celsius
 - Conversão automática para Fahrenheit
@@ -56,7 +56,7 @@ Além do monitoramento, o projeto permite o controle local e remoto de LEDs, ger
 
 ---
 
-# 🖥 Telas do LCD
+# Telas do LCD
 
 O LCD possui cinco telas.
 
@@ -72,7 +72,7 @@ O botão **BTN_TELA** permite alternar manualmente entre as telas. Após alguns 
 
 ---
 
-# ☁ Dashboard Blynk
+# Dashboard Blynk
 
 O dashboard recebe as informações do ESP32 e permite controlar os dispositivos remotamente.
 
@@ -95,7 +95,7 @@ O dashboard recebe as informações do ESP32 e permite controlar os dispositivos
 
 ---
 
-# 🎮 Controle Local e Remoto
+# Controle Local e Remoto
 
 O sistema permite controlar os LEDs tanto pelos interruptores físicos quanto pelo aplicativo Blynk.
 
@@ -112,7 +112,7 @@ Os widgets LED do Blynk (V10 e V11) permanecem sincronizados com o estado físic
 
 ---
 
-# 📈 Histórico
+# Histórico
 
 O sistema registra automaticamente:
 
@@ -130,7 +130,7 @@ O histórico pode ser reiniciado:
 
 ---
 
-# 📶 Conectividade
+# Conectividade
 
 Durante a execução, o sistema monitora continuamente:
 
@@ -143,7 +143,7 @@ Também é enviado ao dashboard o valor do **RSSI**, permitindo acompanhar a int
 
 ---
 
-# ⚙ Organização do Firmware
+# Organização do Firmware
 
 O firmware foi desenvolvido utilizando programação **não bloqueante**, baseada na função `millis()`, evitando interrupções no funcionamento do sistema.
 
@@ -159,15 +159,26 @@ As principais rotinas são responsáveis por:
 
 ---
 
-# 📷 Imagens BLYNK
-<img width="817" height="1600" alt="image" src="https://github.com/user-attachments/assets/af88ab6b-8055-4a8a-b151-af2ffdd53dd2" />
+# Imagens BLYNK
 
-<img width="1080" height="2115" alt="image" src="https://github.com/user-attachments/assets/008a058e-fa99-4729-9e8a-2d3363d73eaf" />
+<table>
+<tr>
+<td align="center">
+<img src="https://github.com/user-attachments/assets/af88ab6b-8055-4a8a-b151-af2ffdd53dd2" width="250">
+</td>
 
-<img width="1080" height="2115" alt="image" src="https://github.com/user-attachments/assets/14fc6230-2436-4173-b89f-34166aad40e2" />
+<td align="center">
+<img src="https://github.com/user-attachments/assets/008a058e-fa99-4729-9e8a-2d3363d73eaf" width="250">
+</td>
+
+<td align="center">
+<img src="https://github.com/user-attachments/assets/14fc6230-2436-4173-b89f-34166aad40e2" width="250">
+</td>
+</tr>
+</table>
 
 
-# ⚠ Limitações
+# Limitações
 
 - O histórico é armazenado apenas em memória RAM e é perdido quando o ESP32 é reiniciado.
 - O armazenamento histórico da plataforma Blynk depende do plano utilizado.
@@ -175,7 +186,7 @@ As principais rotinas são responsáveis por:
 
 ---
 
-# 📚 Tecnologias utilizadas
+# Tecnologias utilizadas
 
 - ESP32
 - Arduino IDE
@@ -187,7 +198,7 @@ As principais rotinas são responsáveis por:
 
 ---
 
-# 👨‍💻 Autores
+# Autores
 
 **Rafaela Gehrke**
 
