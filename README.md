@@ -174,29 +174,217 @@ As principais rotinas são responsáveis por:
 </tr>
 </table>
 
+# Documentação do Projeto
 
-# Limitações
+## Arquitetura do Sistema
 
-- O histórico é armazenado apenas em memória RAM e é perdido quando o ESP32 é reiniciado.
-- O armazenamento histórico da plataforma Blynk depende do plano utilizado.
-- O projeto foi desenvolvido para utilização em redes Wi-Fi domésticas.
+O projeto consiste em um sistema de monitoramento de temperatura e umidade utilizando um ESP32, sensor DHT11, display LCD I2C e a plataforma Blynk IoT.
+
+O ESP32 realiza a aquisição dos dados do sensor, atualiza o display LCD local e envia as informações para o dashboard Blynk por meio da rede Wi-Fi. O sistema também permite o controle remoto dos LEDs e do LED bicolor, além do reset do histórico e do monitoramento da intensidade do sinal Wi-Fi (RSSI).
 
 ---
 
-# Tecnologias utilizadas
+# Diagrama de Classes
 
-- ESP32
-- Arduino IDE
-- C/C++
-- Blynk IoT
-- Wi-Fi
-- LCD I2C
-- Sensor DHT11
+```mermaid
+classDiagram
 
-## Segurança
+class Firmware{
+    +float temperatura
+    +float umidade
+    +float tempMin
+    +float tempMax
+    +float umidMin
+    +float umidMax
+    +int telaAtual
+    +bool remotoHabilitado
+    +float historicoTemp[60]
+    +float historicoUmid[60]
 
-As credenciais da rede Wi-Fi e o **Blynk Auth Token** não são armazenados diretamente no código-fonte do projeto.
+    +setup()
+    +loop()
+    +mostraTela()
+    +atualizaHistorico()
+    +atualizarHistorico60Min()
+    +verificarConexao()
+}
 
-Essas informações devem ser configuradas em um arquivo `secrets.h`, que é ignorado pelo Git através do arquivo `.gitignore`, evitando a exposição de informações sensíveis em repositórios públicos.
+class DHT11{
+    +readTemperature()
+    +readHumidity()
+}
 
-O acesso ao dashboard do Blynk é protegido pela autenticação da própria plataforma, sendo necessário realizar login com uma conta autorizada. Nenhuma credencial do dashboard é disponibilizada neste repositório.
+class LCD{
+    +print()
+    +clear()
+}
+
+class WiFi{
+    +begin()
+    +RSSI()
+}
+
+class Blynk{
+    +virtualWrite()
+    +run()
+    +connect()
+}
+
+Firmware --> DHT11
+Firmware --> LCD
+Firmware --> WiFi
+Firmware --> Blynk
+```
+
+---
+
+# Fluxograma do Firmware
+
+## Setup
+
+```mermaid
+flowchart TD
+
+A[Início] --> B[Inicializa LCD]
+B --> C[Inicializa DHT11]
+C --> D[Configura GPIOs]
+D --> E[Conecta ao Wi-Fi]
+E --> F[Conecta ao Blynk]
+F --> G[Inicializa variáveis]
+G --> H[Mostra primeira tela]
+H --> I[Loop]
+```
+
+---
+
+## Loop Principal
+
+```mermaid
+flowchart TD
+
+A[Loop]
+
+A --> B[Blynk.run()]
+B --> C[timer.run()]
+
+C --> D{2 segundos?}
+
+D -- Sim --> E[Lê DHT11]
+E --> F[Atualiza Histórico]
+F --> G[Atualiza LCD]
+G --> H[Envia dados ao Blynk]
+
+D -- Não --> I
+
+H --> I[Lê Botões]
+
+I --> J[Lê Switches]
+
+J --> K[Atualiza LEDs]
+
+K --> L[Controle Remoto]
+
+L --> M[Controle Local]
+
+M --> N[Troca automática de telas]
+
+N --> A
+```
+
+---
+
+## Fluxograma dos Callbacks Blynk
+
+```mermaid
+flowchart TD
+
+A[Comando recebido pelo Blynk]
+
+A --> B{Virtual Pin}
+
+B -->|V4| C[LED Verde]
+
+B -->|V5| D[LED Vermelho]
+
+B -->|V6| E[LED Bicolor]
+
+B -->|V7| F[Reset Histórico]
+
+C --> G[Atualiza Hardware]
+
+D --> G
+
+E --> G
+
+F --> G
+```
+
+---
+
+## Configurar as credenciais
+
+Criar um arquivo chamado **secrets.h**:
+
+```cpp
+#ifndef SECRETS_H
+#define SECRETS_H
+
+#define BLYNK_TEMPLATE_ID ""
+#define BLYNK_TEMPLATE_NAME ""
+#define BLYNK_AUTH_TOKEN ""
+
+const char ssid[] = "";
+const char pass[] = "";
+
+#endif
+```
+
+---
+
+## Bibliotecas necessárias
+
+Instalar pela Arduino IDE:
+
+- Wire
+- LiquidCrystal_I2C
+- DHT Sensor Library
+- WiFi
+- Blynk
+
+---
+  
+# Segurança
+
+As credenciais da rede Wi-Fi e o Auth Token do Blynk não são armazenados diretamente no código-fonte.
+
+Essas informações devem ser inseridas no arquivo `secrets.h`, que é ignorado pelo Git através do arquivo `.gitignore`.
+
+O acesso ao dashboard do Blynk é protegido pela autenticação da própria plataforma, sendo necessário realizar login em uma conta autorizada.
+
+---
+
+# Limitações Encontradas
+
+Durante o desenvolvimento do projeto foram observadas algumas limitações.
+
+- O plano gratuito do Blynk apresenta restrições quanto ao armazenamento de dados históricos, permitindo apenas a visualização em tempo real e retenção limitada das informações.
+
+- O histórico das medições é armazenado apenas na memória RAM do ESP32, sendo perdido após reinicialização ou desligamento do dispositivo.
+
+- A atualização dos dados depende da estabilidade da conexão Wi-Fi, podendo ocorrer atrasos na sincronização quando a intensidade do sinal é baixa.
+
+- O sensor DHT11 possui precisão inferior quando comparado a sensores mais modernos, como o DHT22, especialmente para medições de temperatura e umidade em ambientes com maior variação.
+
+- O dashboard reflete os estados dos dispositivos em tempo real, porém sua atualização depende da disponibilidade da conexão com a plataforma Blynk.
+
+---
+
+# Estrutura do Projeto
+
+```
+Projeto/
+│
+├── MonitorWiFiESP32.ino
+├── secrets.h
+├── README.md
+```
