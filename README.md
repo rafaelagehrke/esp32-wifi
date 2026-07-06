@@ -193,3 +193,10 @@ As principais rotinas são responsáveis por:
 - LCD I2C
 - Sensor DHT11
 
+## Segurança
+
+As credenciais da rede Wi-Fi e o **Blynk Auth Token** não são armazenados diretamente no código-fonte do projeto.
+
+Essas informações devem ser configuradas em um arquivo `secrets.h`, que é ignorado pelo Git através do arquivo `.gitignore`, evitando a exposição de informações sensíveis em repositórios públicos.
+
+O acesso ao dashboard do Blynk é protegido pela autenticação da própria plataforma, sendo necessário realizar login com uma conta autorizada. Nenhuma credencial do dashboard é disponibilizada neste repositório.
