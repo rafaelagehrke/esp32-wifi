@@ -2,10 +2,7 @@
 
 **Disciplina:** Tópicos Especiais em Computação XXVII (GEX1087)  
 **Instituição:** Universidade Federal da Fronteira Sul (UFFS) – Campus Chapecó  
-
-**Integrantes:**
-- Rafaela Gehrke
-
+**Integrantes:** Rafaela Gehrke
 **Plataforma utilizada:** Blynk IoT
 
 ---
@@ -196,12 +193,3 @@ As principais rotinas são responsáveis por:
 - LCD I2C
 - Sensor DHT11
 
----
-
-# Autores
-
-**Rafaela Gehrke**
-
-**Nome do colega**
-
-Universidade Federal da Fronteira Sul — UFFS
