@@ -262,33 +262,34 @@ H --> I[Loop]
 ```mermaid
 flowchart TD
 
-A[Loop]
+START([Loop])
 
-A --> B[Blynk.run()]
-B --> C[timer.run()]
+START --> A["Blynk.run()"]
+A --> B["timer.run()"]
 
-C --> D{2 segundos?}
+B --> C["Atualiza estado do SW1"]
 
-D -- Sim --> E[Lê DHT11]
-E --> F[Atualiza Histórico]
-F --> G[Atualiza LCD]
-G --> H[Envia dados ao Blynk]
+C --> D{"2 segundos?"}
 
-D -- Não --> I
+D -->|Sim| E["Lê temperatura e umidade"]
+E --> F["Atualiza mínimos e máximos"]
+F --> G["Atualiza histórico"]
+G --> H["Envia dados ao Blynk"]
+H --> I["Atualiza LCD"]
 
-H --> I[Lê Botões]
+D -->|Não| I
 
-I --> J[Lê Switches]
+I --> J["Lê botão de troca de tela"]
 
-J --> K[Atualiza LEDs]
+J --> K["Lê botão de reset"]
 
-K --> L[Controle Remoto]
+K --> L["Lê SW2 e SW3"]
 
-L --> M[Controle Local]
+L --> M["Atualiza LEDs"]
 
-M --> N[Troca automática de telas]
+M --> N["Troca automática de tela"]
 
-N --> A
+N --> START
 ```
 
 ---
